@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\HabitTrackingDtos\" />
-    <Folder Include="Dtos\UserDtos\" />
     <Folder Include="Services\" />
-    <Folder Include="Validations\" />
+    <Folder Include="Validations\HabitValidations\" />
+    <Folder Include="Validations\HabitTrackingValidations\" />
+    <Folder Include="Validations\UserValidations\" />
   </ItemGroup>
 
 </Project>

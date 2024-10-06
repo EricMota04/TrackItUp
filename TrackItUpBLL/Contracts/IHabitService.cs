@@ -9,7 +9,5 @@ namespace TrackItUpBLL.Contracts
         HabitAddResponse AddHabit(HabitAddDto habitAddDto);
         HabitUpdateResponse UpdateHabit(HabitUpdateDto habitUpdateDto);
         HabitDeleteResponse DeleteHabit(HabitDeleteDto habitDeleteDto);
-
-        
     }
 }

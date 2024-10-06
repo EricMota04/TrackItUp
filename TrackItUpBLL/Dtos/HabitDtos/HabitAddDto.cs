@@ -4,22 +4,22 @@ namespace TrackItUpBLL.DTOs
 {
     public class HabitAddDto
     {
-        [Required(ErrorMessage = "El nombre del hábito es requerido.")]
+        [Required(ErrorMessage = "The name of the habit is required")]
         public string HabitName { get; set; }
 
-        [Required(ErrorMessage = "La descripción es requerida.")]
+        [Required(ErrorMessage = "The description of the habit is required")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "La fecha de inicio es requerida.")]
+        [Required(ErrorMessage = "The start date of the habit is required")]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "La frecuencia es requerida.")]
+        [Required(ErrorMessage = "The frequency in which the habit will be done is required")]
         public string Frequency { get; set; }
 
-        [Required(ErrorMessage = "El tiempo de recordatorio es requerido.")]
+        [Required(ErrorMessage = "The reminder time is required")]
         public TimeSpan ReminderTime { get; set; }
 
-        [Required(ErrorMessage = "El ID del usuario es requerido.")]
+        [Required(ErrorMessage = "The User ID is required")]
         public int UserId { get; set; }
     }
 }
