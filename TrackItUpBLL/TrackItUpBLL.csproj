@@ -8,10 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Contracts\" />
-    <Folder Include="Core\" />
     <Folder Include="Dtos\" />
     <Folder Include="Models\" />
-    <Folder Include="Responses\" />
     <Folder Include="Services\" />
     <Folder Include="Validations\" />
   </ItemGroup>
