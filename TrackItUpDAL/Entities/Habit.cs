@@ -1,8 +1,13 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TrackItUpDAL.Entities
 {
     public class Habit
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int HabitId { get; set; } // ID único del hábito (auto-generado)
         public required string HabitName { get; set; }
         public required string Description { get; set; } 
