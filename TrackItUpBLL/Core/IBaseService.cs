@@ -8,7 +8,7 @@ namespace TrackItUpBLL.Core
 {
     public interface IBaseService
     {
-        ServiceResult GetAll();
-        ServiceResult GetById(int id);
+        Task<ServiceResult> GetAll();
+        Task<ServiceResult> GetById(int id);
     }
 }

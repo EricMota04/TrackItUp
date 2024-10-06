@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 using TrackItUpDAL.Context;
 using TrackItUpDAL.Entities;
 using TrackItUpDAL.Interfaces;
@@ -37,6 +38,18 @@ namespace TrackItUpDAL.Repositories
             throw new NotSupportedException("Deleting habit tracking entries is not supported.");
         }
 
+        public async Task<bool> ExistsAsync(Expression<Func<HabitTracking, bool>> expression)
+        {
+            try
+            {
+                return await _trackItUpContext.HabitTrackings.AnyAsync(expression);
+            }
+            catch (Exception ex) 
+            { 
+                _logger?.LogError(ex.Message);
+                throw;
+            }
+        }
 
         public async Task<IEnumerable<HabitTracking>> GetAll()
         {

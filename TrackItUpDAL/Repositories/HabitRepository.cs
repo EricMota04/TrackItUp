@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 using TrackItUpDAL.Context;
 using TrackItUpDAL.Entities;
 using TrackItUpDAL.Interfaces;
@@ -60,6 +61,19 @@ namespace TrackItUpDAL.Repositories
                 habit.DeletedAt = DateTime.UtcNow;
                 await _trackItUpContext.SaveChangesAsync();
                 return habit;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message.ToString());
+                throw;
+            }
+        }
+
+        public async Task<bool> ExistsAsync(Expression<Func<Habit, bool>> expression)
+        {
+            try
+            {
+                return await _trackItUpContext.Habits.AnyAsync(expression);
             }
             catch (Exception ex)
             {

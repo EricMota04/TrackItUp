@@ -20,7 +20,7 @@ namespace TrackItUpDAL.Entities
         public bool IsDeleted { get; set; }
         public DateTime? DeletedAt { get; set; }
         public required int UserId { get; set; }
-        public required User User { get; set; }
+        public User User { get; set; }
         public ICollection<HabitTracking> HabitTrackings { get; set; } = new List<HabitTracking>();
 
         public Habit()

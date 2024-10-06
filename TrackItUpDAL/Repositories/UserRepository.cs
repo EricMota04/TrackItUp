@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 using TrackItUpDAL.Context;
 using TrackItUpDAL.Entities;
 using TrackItUpDAL.Interfaces;
@@ -37,6 +38,19 @@ namespace TrackItUpDAL.Repositories
             throw new Exception("Delete user is not supported yet");
         }
 
+        public async Task<bool> ExistsAsync(Expression<Func<User, bool>> expression)
+        {
+            try
+            {
+                return await _trackItUpContext.Users.AnyAsync(expression);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex.Message.ToString());
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<User>> GetAll()
         {
             try
@@ -67,12 +81,7 @@ namespace TrackItUpDAL.Repositories
         {
             try
             {
-                User userToUpdate = await _trackItUpContext.Users.FindAsync(entity.UserId);
-                if (userToUpdate == null)
-                {
-                    throw new Exception($"{entity.UserId} is invalid.");
-                }
-                
+                User userToUpdate = await _trackItUpContext.Users.FindAsync(entity.UserId) ?? throw new Exception($"{entity.UserId} is invalid.");
                 userToUpdate.Password = entity.Password;
 
                 await _trackItUpContext.SaveChangesAsync();

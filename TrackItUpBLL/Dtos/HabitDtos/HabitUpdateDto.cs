@@ -8,7 +8,6 @@
         public required DateTime StartDate { get; set; }
         public required string Frequency { get; set; }
         public required TimeSpan ReminderTime { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+
     }
 }
