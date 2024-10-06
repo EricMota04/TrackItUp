@@ -11,20 +11,42 @@ namespace TrackItUpDAL.Context
 
         public TrackItUpContext(DbContextOptions<TrackItUpContext> options) : base(options)
         {
-
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Habit>()
-                .HasMany(h => h.HabitTrackings)
-                .WithOne(ht => ht.Habit)
-                .HasForeignKey(ht => ht.HabitId);
+                .HasKey(h => h.HabitId); 
+
+            modelBuilder.Entity<Habit>()
+                .Property(h => h.HabitId)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<HabitTracking>()
+                .HasKey(ht => ht.HabitTrackingId);
+
+            modelBuilder.Entity<HabitTracking>()
+                .Property(ht => ht.HabitTrackingId)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Habits)
-                .WithOne(h => h.User)
-                .HasForeignKey(h => h.UserId);
-        }
+                .HasKey(h => h.UserId);
 
+            modelBuilder.Entity<User>()
+                .Property(h => h.UserId)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Habit>()
+                .HasMany(h => h.HabitTrackings) 
+                .WithOne(ht => ht.Habit) 
+                .HasForeignKey(ht => ht.HabitId); 
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Habits) 
+                .WithOne(h => h.User) 
+                .HasForeignKey(h => h.UserId); 
+
+            
+        }
     }
 }
