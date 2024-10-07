@@ -26,7 +26,7 @@ namespace TrackItUpBLL.Services
 
             try
             {
-                var IsValidHabit =  await HabitValidations.IsValidHabitToAddAsync(habitAddDto, _habitRepository);
+                var IsValidHabit = await HabitValidations.IsValidHabitToAddAsync(habitAddDto, _habitRepository);
                 if (IsValidHabit.Success)
                 {
                     Models.HabitModel habitModel = new()
@@ -37,21 +37,22 @@ namespace TrackItUpBLL.Services
                         ReminderTime = habitAddDto.ReminderTime,
                         StartDate = habitAddDto.StartDate,
                         UserId = habitAddDto.UserId,
-                        
+
                     };
 
                     Habit habit = new()
                     {
                         Description = habitModel.Description,
                         Frequency = habitModel.Frequency,
-                        HabitName= habitModel.HabitName,
-                        ReminderTime= habitModel.ReminderTime,
+                        HabitName = habitModel.HabitName,
+                        ReminderTime = habitModel.ReminderTime,
                         StartDate = habitModel.StartDate,
-                        UserId = habitModel.UserId,                        
+                        UserId = habitModel.UserId,
                     };
 
                     await _habitRepository.Add(habit);
                     result.Message = "Habit Added Succesfully";
+                    result.Data = habit;
                     return result;
                 }
                 else
@@ -82,13 +83,13 @@ namespace TrackItUpBLL.Services
                     {
                         await _habitRepository.Delete(habitDeleteDto.HabitId);
                         result.Message = "Habit deleted succesfully";
-                        return result ;
+                        return result;
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex.Message);
                         throw;
-                    }  
+                    }
                 }
                 else
                 {
@@ -125,9 +126,10 @@ namespace TrackItUpBLL.Services
                     IsActive = h.IsActive,
                     IsDeleted = h.IsDeleted,
                     StartDate = h.StartDate,
-                    HabitTrackings = h.HabitTrackings.Select(ht => new Models.HabitTrackingModel{
+                    HabitTrackings = h.HabitTrackings.Select(ht => new Models.HabitTrackingModel
+                    {
                         HabitTrackingId = ht.HabitTrackingId,
-                        HabitId=ht.HabitId,
+                        HabitId = ht.HabitId,
                         DateTracked = ht.DateTracked,
                         IsCompleted = ht.IsCompleted,
 
@@ -152,10 +154,10 @@ namespace TrackItUpBLL.Services
             try
             {
                 var habit = await _habitRepository.GetById(id);
-                if (habit != null) 
-                { 
-                    Models.HabitModel habitModel = new() 
-                    { 
+                if (habit != null)
+                {
+                    Models.HabitModel habitModel = new()
+                    {
                         Frequency = habit.Frequency,
                         HabitName = habit.HabitName,
                         HabitId = habit.HabitId,
@@ -169,13 +171,13 @@ namespace TrackItUpBLL.Services
                         IsDeleted = habit.IsDeleted,
                         StartDate = habit.StartDate,
                         HabitTrackings = habit.HabitTrackings.Select(x =>
-                                                new HabitTrackingModel 
+                                                new HabitTrackingModel
                                                 {
                                                     HabitId = x.HabitId,
                                                     HabitTrackingId = x.HabitTrackingId,
                                                     IsCompleted = x.IsCompleted,
                                                     DateTracked = x.DateTracked,
-                                                    
+
                                                 }).ToList()
                     };
                     result.Data = habitModel;
@@ -206,44 +208,37 @@ namespace TrackItUpBLL.Services
                 if (IsValidUpdate.Success)
                 {
                     var habitToUpdate = await _habitRepository.GetById(habitUpdateDto.HabitId);
-                    HabitModel habitModel = new()
-                    {
-                        HabitId = habitUpdateDto.HabitId,
-                        Frequency = habitUpdateDto.Frequency,
-                        HabitName = habitUpdateDto.HabitName,
-                        ReminderTime = habitUpdateDto.ReminderTime,
-                        UserId = habitToUpdate.UserId,
-                        StartDate = habitToUpdate.StartDate,
-                        Description = habitToUpdate.Description,
-                    };
 
-                    Habit habit = new()
+                    if (habitToUpdate == null)
                     {
-                        HabitId = habitModel.HabitId,
-                        Description = habitModel.Description,
-                        Frequency = habitModel.Frequency,
-                        HabitName= habitModel.HabitName,
-                        ReminderTime= habitModel.ReminderTime,
-                        StartDate= habitModel.StartDate,
-                        UserId= habitModel.UserId,
-                    };
-                    await _habitRepository.Update(habit);
-                    result.Data = habit;
-                    result.Message = "Habit Updated Succesfully";
-                    return result;
+                        result.Success = false;
+                        result.Message = "Habit not found.";
+                        return result;
+                    }
+
+                    habitToUpdate.Frequency = habitUpdateDto.Frequency;
+                    habitToUpdate.HabitName = habitUpdateDto.HabitName;
+                    habitToUpdate.ReminderTime = habitUpdateDto.ReminderTime;
+
+                    await _habitRepository.Update(habitToUpdate);
+
+                    result.Data = habitToUpdate;
+                    result.Message = "Habit updated successfully.";
                 }
                 else
                 {
                     result.Success = false;
                     result.Message = IsValidUpdate.Message;
-                    return result;
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                throw;
+                _logger.LogError(ex, "An error occurred while updating the habit.");
+                result.Success = false;
+                result.Message = "An error occurred while updating the habit.";
             }
+
+            return result;
         }
     }
 }

@@ -7,8 +7,8 @@ namespace TrackItUpBLL.Contracts
 {
     public interface IHabitTrackingService : Core.IBaseService
     {
-        HabitTrackingAddResponse AddHabitTracking(HabitTrackingAddDto habitTrackingAddDto);
-        HabitTrackingUpdateResponse UpdateHabitTracking(HabitTrackingUpdateDto habitTrackingUpdateDto);
+        Task<HabitTrackingAddResponse> AddHabitTracking(HabitTrackingAddDto habitTrackingAddDto);
+        Task<HabitTrackingUpdateResponse> UpdateHabitTracking(HabitTrackingUpdateDto habitTrackingUpdateDto);
 
     }
 }

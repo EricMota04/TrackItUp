@@ -1,6 +1,8 @@
-﻿namespace TrackItUpBLL.Responses.HabitTrackingResponses
+﻿using TrackItUpBLL.Core;
+
+namespace TrackItUpBLL.Responses.HabitTrackingResponses
 {
-    public class HabitTrackingUpdateResponse
+    public class HabitTrackingUpdateResponse : ServiceResult
     {
     }
 }

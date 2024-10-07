@@ -61,5 +61,6 @@ namespace TrackItUpBLL.Validations.UserValidations
 
             return result;
         }
+        
     }
 }

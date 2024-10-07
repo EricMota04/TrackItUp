@@ -5,7 +5,7 @@ namespace TrackItUpBLL.Contracts
 {
     public interface IUserService : Core.IBaseService
     {
-        UserAddResponse AddUser(UserAddDto userAddDto);
-        UserUpdateResponse UpdateUser(UserUpdateDto userUpdateDto);
+        Task<UserAddResponse> AddUser(UserAddDto userAddDto);
+        Task<UserUpdateResponse> UpdateUser(UserUpdateDto userUpdateDto);
     }
 }
