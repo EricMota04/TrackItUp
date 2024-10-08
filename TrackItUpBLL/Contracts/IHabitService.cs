@@ -1,5 +1,6 @@
-﻿using TrackItUpBLL.Dtos.HabitDtos;
-using TrackItUpBLL.DTOs;
+﻿using TrackItUpBLL.Core;
+using TrackItUpBLL.Dtos.HabitDtos;
+
 using TrackItUpBLL.Responses.HabitResponses;
 
 namespace TrackItUpBLL.Contracts
@@ -9,5 +10,6 @@ namespace TrackItUpBLL.Contracts
         Task<HabitAddResponse> AddHabitAsync(HabitAddDto habitAddDto);
         Task<HabitUpdateResponse> UpdateHabit(HabitUpdateDto habitUpdateDto);
         Task<HabitDeleteResponse> DeleteHabit(HabitDeleteDto habitDeleteDto);
+        Task<ServiceResult> GetHabitsByUserID(int userId);
     }
 }

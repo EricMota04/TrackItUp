@@ -59,7 +59,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                result.Success = false;
+                result.Message = $"There was an adding the user{ex.Message}";
+                return result;
             }
         }
 

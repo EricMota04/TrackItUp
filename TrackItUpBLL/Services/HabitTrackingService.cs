@@ -8,6 +8,7 @@ using TrackItUpBLL.Validations.HabitTrackingValidations;
 using TrackItUpDAL.Entities;
 using TrackItUpDAL.Interfaces;
 using System.Linq;
+using Azure.Core;
 
 namespace TrackItUpBLL.Services
 {
@@ -85,8 +86,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-
-                throw;
+                result.Success = false;
+                result.Message = $"There was an error adding the habitTracking {ex.Message}";
+                return result;
             }
         }
 
@@ -117,7 +119,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger?.LogError(ex.Message);
-                throw;
+                result.Success= false;
+                result.Message= $"There was an error retrieving the habit trackings{ex.Message}";
+                return result;
             }
         }
 
@@ -159,7 +163,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                result.Success = false;
+                result.Message = $"There was an error retrieving the habit tracking{ex.Message}";
+                return result;
             }
         }
 
@@ -196,7 +202,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger?.LogError(ex.Message);
-                throw;
+                result.Success = false;
+                result.Message = $"There was an error updating the habit tracking{ex.Message}";
+                return result;
             }
         }
     }

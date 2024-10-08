@@ -7,7 +7,7 @@
         public  string Description { get; set; } = "No description provided";
         public  DateTime StartDate { get; set; }
         public  string Frequency { get; set; }
-        public  TimeSpan ReminderTime { get; set; }
+        public  TimeSpan? ReminderTime { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? DeactivatedAt { get; set; }
         public bool IsActive { get; set; }

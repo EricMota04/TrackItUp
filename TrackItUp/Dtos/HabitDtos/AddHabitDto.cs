@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TrackItUpBLL.Dtos.HabitDtos
+namespace TrackItUp.Dtos.HabitDtos
 {
-    public class HabitAddDto
+    public class AddHabitDto
     {
         [Required(ErrorMessage = "The name of the habit is required")]
         public string HabitName { get; set; }
@@ -16,8 +16,8 @@ namespace TrackItUpBLL.Dtos.HabitDtos
         [Required(ErrorMessage = "The frequency in which the habit will be done is required")]
         public string Frequency { get; set; }
 
-        [Required(ErrorMessage = "The reminder time is required")]
-        public TimeSpan? ReminderTime { get; set; }
+        //[Required(ErrorMessage = "The reminder time is required")]
+        public string ReminderTime { get; set; }
 
         [Required(ErrorMessage = "The User ID is required")]
         public int UserId { get; set; }

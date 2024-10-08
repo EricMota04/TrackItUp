@@ -2,7 +2,7 @@
 using TrackItUpBLL.Contracts;
 using TrackItUpBLL.Core;
 using TrackItUpBLL.Dtos.HabitDtos;
-using TrackItUpBLL.DTOs;
+
 using TrackItUpBLL.Models;
 using TrackItUpBLL.Responses.HabitResponses;
 using TrackItUpDAL.Interfaces;
@@ -65,7 +65,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                result.Success = false;
+                result.Message = $"There was an error adding the habit {ex.InnerException}";
+                return result;
             }
         }
 
@@ -101,7 +103,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                result.Success = false;
+                result.Message = $"There was an error deleting the habit {ex.Message}";
+                return result;
             }
         }
 
@@ -144,7 +148,9 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                result.Message = $"There was an error retrieving the habits {ex.Message}";
+                result.Success = false ;
+                return result;
             }
         }
 
@@ -194,8 +200,38 @@ namespace TrackItUpBLL.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                result.Success = false;
+                result.Message = $"There was an error retrieving the habit {ex.Message}";
+                return result;
             }
+        }
+
+        public async Task<ServiceResult> GetHabitsByUserID(int userId)
+        {
+            ServiceResult result = new ServiceResult();
+
+            try
+            {
+                var habits = await _habitRepository.GetHabitsByUserID(userId);
+                if (habits == null) 
+                {
+                    result.Success = false;
+                    result.Message = "There's no habits for this user";
+                    return result;
+                }
+                result.Data = habits;
+                result.Message = $"Habits [{userId}]";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message}");
+                result.Success= false;
+                result.Message = $"There was an error retrieving the habits: {ex.Message}";
+                return result;
+                
+            }
+            
         }
 
         public async Task<HabitUpdateResponse> UpdateHabit(HabitUpdateDto habitUpdateDto)
@@ -224,11 +260,13 @@ namespace TrackItUpBLL.Services
 
                     result.Data = habitToUpdate;
                     result.Message = "Habit updated successfully.";
+                    return result;
                 }
                 else
                 {
                     result.Success = false;
                     result.Message = IsValidUpdate.Message;
+                    return result;
                 }
             }
             catch (Exception ex)
@@ -236,9 +274,10 @@ namespace TrackItUpBLL.Services
                 _logger.LogError(ex, "An error occurred while updating the habit.");
                 result.Success = false;
                 result.Message = "An error occurred while updating the habit.";
+                return result;
             }
 
-            return result;
+            
         }
     }
 }

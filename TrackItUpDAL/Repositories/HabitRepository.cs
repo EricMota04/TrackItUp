@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using TrackItUpDAL.Context;
 using TrackItUpDAL.Entities;
@@ -109,6 +110,14 @@ namespace TrackItUpDAL.Repositories
             }
         }
 
+        public async Task<IEnumerable<Habit>> GetHabitsByUserID(int userID)
+        {
+            var habits = await _trackItUpContext.Habits.Where(u => u.UserId.Equals(userID)).ToListAsync();
+
+            return habits;
+
+        }
+
         public async Task<Habit> Update(Habit entity)
         {
             try
@@ -127,6 +136,7 @@ namespace TrackItUpDAL.Repositories
                 entityToUpdate.StartDate = entity.StartDate;
                 entityToUpdate.Frequency = entity.Frequency;
                 entityToUpdate.ReminderTime = entity.ReminderTime;
+                
 
                 
                 await _trackItUpContext.SaveChangesAsync();

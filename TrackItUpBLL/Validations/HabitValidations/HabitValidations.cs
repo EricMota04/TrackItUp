@@ -4,7 +4,7 @@ using TrackItUpBLL.Dtos.HabitDtos;
 using TrackItUpDAL.Entities;
 using TrackItUpDAL.Interfaces;
 using System.Threading.Tasks;
-using TrackItUpBLL.DTOs;
+
 
 public static class HabitValidations
 {
