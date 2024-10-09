@@ -8,19 +8,18 @@ namespace TrackItUp.Dtos.HabitDtos
         [Required(ErrorMessage ="Habit ID is required")]
         public required int HabitId { get; set; }
 
-        [Required(ErrorMessage = "Habit ID is required")]
+        [Required(ErrorMessage = "Habit Name is required")]
         public required string HabitName { get; set; }
 
-        [Required(ErrorMessage = "Habit ID is required")]
         public required string Description { get; set; }
 
-        [Required(ErrorMessage = "Habit ID is required")]
+        [Required(ErrorMessage = "Start date is required")]
         public required DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage ="Habit ID is required")]
+        [Required(ErrorMessage ="Frequency is required")]
         public required string Frequency { get; set; }
 
         [Required(ErrorMessage ="Habit ID is required")]
-        public required TimeSpan ReminderTime { get; set; }
+        public required string ReminderTime { get; set; }
     }
 }

@@ -55,14 +55,14 @@ namespace TrackItUpDAL.Repositories
         {
             try
             {
-                return await _trackItUpContext.HabitTrackings.ToListAsync();
+                var habitTrackings = await _trackItUpContext.HabitTrackings.ToListAsync();
+                return habitTrackings ?? Enumerable.Empty<HabitTracking>();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 throw;
             }
-
         }
 
         public async Task<HabitTracking> GetById(int id)
@@ -77,6 +77,11 @@ namespace TrackItUpDAL.Repositories
                 throw;
             }
 
+        }
+
+        public async Task<IEnumerable<HabitTracking>> GetHabitTrackingsByHabitId(int habitId)
+        {
+            return await _trackItUpContext.HabitTrackings.Where(x => x.HabitId.Equals(habitId)).ToListAsync();
         }
 
         public async Task<HabitTracking> Update(HabitTracking entity)

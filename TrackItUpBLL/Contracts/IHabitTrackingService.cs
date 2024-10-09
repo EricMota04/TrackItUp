@@ -1,4 +1,5 @@
-﻿using TrackItUpBLL.Dtos.HabitTrackingDtos;
+﻿using TrackItUpBLL.Core;
+using TrackItUpBLL.Dtos.HabitTrackingDtos;
 using TrackItUpBLL.Dtos.UserDtos;
 using TrackItUpBLL.Responses.HabitTrackingResponses;
 using TrackItUpBLL.Responses.UserResponses;
@@ -9,6 +10,7 @@ namespace TrackItUpBLL.Contracts
     {
         Task<HabitTrackingAddResponse> AddHabitTracking(HabitTrackingAddDto habitTrackingAddDto);
         Task<HabitTrackingUpdateResponse> UpdateHabitTracking(HabitTrackingUpdateDto habitTrackingUpdateDto);
+        Task<ServiceResult> GetHabitTrackingsByHabitID(int id);
 
     }
 }

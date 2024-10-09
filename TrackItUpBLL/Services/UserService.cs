@@ -188,6 +188,7 @@ namespace TrackItUpBLL.Services
                     result.Message = "User does not exist";
                 }
                 userToUpdate.Password = userUpdateDto.Password;
+                await _userRepository.Update(userToUpdate);
 
                 result.Data = userToUpdate;
                 result.Message = "User updated successfully";

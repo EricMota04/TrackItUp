@@ -16,7 +16,7 @@ namespace TrackItUp.Dtos.HabitDtos
         [Required(ErrorMessage = "The frequency in which the habit will be done is required")]
         public string Frequency { get; set; }
 
-        //[Required(ErrorMessage = "The reminder time is required")]
+        [Required(ErrorMessage = "The reminder time is required")]
         public string ReminderTime { get; set; }
 
         [Required(ErrorMessage = "The User ID is required")]

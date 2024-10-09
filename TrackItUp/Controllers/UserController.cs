@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TrackItUp.Dtos.UserDtos;
 using TrackItUpBLL.Contracts;
+using TrackItUpBLL.Core;
+using TrackItUpBLL.Dtos.UserDtos;
 
 namespace TrackItUp.Controllers
 {
@@ -9,8 +11,8 @@ namespace TrackItUp.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUserService _userService;
-        ILogger<UserController> _logger;
+        private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
 
         public UserController(IUserService userService, ILogger<UserController> logger)
         {
@@ -18,8 +20,29 @@ namespace TrackItUp.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _userService.GetAll();
+            if (!users.Success)
+            {
+                return BadRequest(users);
+            }
+            if (users.Data == null)
+            {
+                return NotFound(users);
+            }
+            return Ok(users);
+        }
+
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id) 
         {
             if(id == null) 
@@ -29,9 +52,9 @@ namespace TrackItUp.Controllers
             try
             {
                 var user = await _userService.GetById(id);
-                if (user == null)
+                if (user.Data == null)
                 {
-                    return NotFound();
+                    return NotFound(user);
                 }
 
                 return Ok(user);
@@ -46,6 +69,8 @@ namespace TrackItUp.Controllers
 
 
         [HttpPost]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ServiceResult) , StatusCodes.Status201Created)]
         public async Task<IActionResult> Create([FromBody] AddUserDto addUserDto)
         {
             if (addUserDto == null)
@@ -77,6 +102,42 @@ namespace TrackItUp.Controllers
                 _logger.LogError(ex, "An error occurred while creating the user.");
                 return StatusCode(500, "Internal server error"); 
             }
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update([FromBody] UpdateUserDto updateUserDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                
+                var userResult = await _userService.GetById(updateUserDto.Id);
+
+                if (userResult.Data == null)
+                {
+                    return NotFound(); 
+                }
+                UserUpdateDto userToUpdate = new()
+                {
+                    Id = updateUserDto.Id,
+                    Password = updateUserDto.Password,
+                };
+                var updateUser = await _userService.UpdateUser(userToUpdate);
+
+                return Ok(updateUser);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener el usuario por ID");
+                return StatusCode(500, "Error interno del servidor");
+            }
+
         }
 
     }

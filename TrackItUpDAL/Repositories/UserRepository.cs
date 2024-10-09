@@ -55,7 +55,8 @@ namespace TrackItUpDAL.Repositories
         {
             try
             {
-                return await _trackItUpContext.Users.AsNoTracking().ToListAsync();
+                return await _trackItUpContext.Users.ToListAsync();
+                
             }
             catch (Exception ex)
             {

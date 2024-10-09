@@ -9,6 +9,7 @@ using TrackItUpDAL.Entities;
 using TrackItUpDAL.Interfaces;
 using System.Linq;
 using Azure.Core;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TrackItUpBLL.Services
 {
@@ -43,31 +44,13 @@ namespace TrackItUpBLL.Services
                         HabitId = habitTrackingAddDto.HabitId,
                         IsCompleted = true,
                         DateTracked = habitTrackingAddDto.DateTracked ?? DateTime.Now,
-                        Habit = new Models.HabitModel
-                        {
-                            HabitId = habit.HabitId,
-                            HabitName = habit.HabitName,
-                            Frequency = habit.Frequency,
-                            Description = habit.Description,
-                            ReminderTime = habit.ReminderTime,
-                            UserId = habit.UserId,
-                        }
                     };
 
                     TrackItUpDAL.Entities.HabitTracking habitTracking = new()
                     {
                         HabitId = habitTrackingModel.HabitId,
-                        HabitTrackingId = habitTrackingModel.HabitTrackingId,
                         IsCompleted = habitTrackingModel.IsCompleted,
                         DateTracked = habitTrackingModel.DateTracked,
-                        Habit = new TrackItUpDAL.Entities.Habit
-                        {
-                            HabitId = habitTrackingModel.HabitId,
-                            HabitName = habitTrackingModel.Habit.HabitName,
-                            Description = habitTrackingModel.Habit.Description,
-                            Frequency = habitTrackingModel.Habit.Frequency
-                            
-                        }
                     };
 
                     await _habitTrackingRepository.Add(habitTracking);
@@ -98,29 +81,27 @@ namespace TrackItUpBLL.Services
             try
             {
                 var trackings = await _habitTrackingRepository.GetAll();
-                result.Data = trackings.Select(ht => new Models.HabitTrackingModel()
+
+                var inter = trackings.Select(ht => new Models.HabitTrackingModel()
                 {
                     HabitTrackingId = ht.HabitTrackingId,
                     HabitId = ht.HabitId,
                     DateTracked = ht.DateTracked,
                     IsCompleted = ht.IsCompleted,
-                    Habit = new Models.HabitModel() 
-                    { 
-                        HabitId = ht.Habit.HabitId,
-                        HabitName = ht.Habit.HabitName,
-                        Description = ht.Habit.Description,
-                        Frequency = ht.Habit.Frequency,
-                    }
-                }).ToList();
 
+                });
+
+                result.Data = inter.Any() ? inter.ToList() : null; 
+
+                result.Success = true; 
                 result.Message = "Success";
                 return result;
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex.Message);
-                result.Success= false;
-                result.Message= $"There was an error retrieving the habit trackings{ex.Message}";
+                result.Success = false;
+                result.Message = $"There was an error retrieving the habit trackings: {ex.Message}";
                 return result;
             }
         }
@@ -135,17 +116,10 @@ namespace TrackItUpBLL.Services
                 {
                     Models.HabitTrackingModel habitTrackingModel = new()
                     {
-                        HabitTrackingId = habitTracking.HabitId,
+                        HabitTrackingId = habitTracking.HabitTrackingId,
                         HabitId = habitTracking.HabitId,
                         DateTracked = habitTracking.DateTracked,
                         IsCompleted = habitTracking.IsCompleted,
-                        Habit = new Models.HabitModel()
-                        {
-                            HabitId = habitTracking.Habit.HabitId,
-                            HabitName = habitTracking.Habit.HabitName,
-                            Description= habitTracking.Habit.Description,
-                            Frequency= habitTracking.Habit.Frequency,
-                        }
                         
                     };
                     result.Data = habitTrackingModel;
@@ -165,6 +139,35 @@ namespace TrackItUpBLL.Services
                 _logger.LogError(ex.Message);
                 result.Success = false;
                 result.Message = $"There was an error retrieving the habit tracking{ex.Message}";
+                return result;
+            }
+        }
+
+        public async Task<ServiceResult> GetHabitTrackingsByHabitID(int id)
+        {
+            ServiceResult result = new();
+            try
+            {
+                var habitTracking = await _habitTrackingRepository.GetHabitTrackingsByHabitId(id);
+                if (habitTracking != null)
+                {
+                    result.Data = habitTracking;                     
+                    result.Message = "Success";
+                    return result;
+                }
+                else
+                {
+                    result.Success = false;
+                    result.Message = "Habit tracking are null";
+                    return result;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                result.Success = false;
+                result.Message = $"There was an error retrieving the habit trackings {ex.Message}";
                 return result;
             }
         }

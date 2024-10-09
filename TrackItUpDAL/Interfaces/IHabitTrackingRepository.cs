@@ -6,6 +6,6 @@ namespace TrackItUpDAL.Interfaces
 {
     public interface IHabitTrackingRepository : IBaseRepository<HabitTracking>
     {
-        
+        Task<IEnumerable<HabitTracking>> GetHabitTrackingsByHabitId(int habitId);
     }
 }

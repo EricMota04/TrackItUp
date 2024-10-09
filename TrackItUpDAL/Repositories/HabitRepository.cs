@@ -96,11 +96,11 @@ namespace TrackItUpDAL.Repositories
             }
         }
 
-        public async Task<Habit> GetById(int id)
+        public async Task<Habit?> GetById(int id)
         {
             try
             {
-                var habit = await _trackItUpContext.Habits.FindAsync(id);
+                var habit = await _trackItUpContext.Habits.AsNoTracking().FirstOrDefaultAsync(h => h.HabitId == id);
                 return habit;
             }
             catch (Exception ex)
