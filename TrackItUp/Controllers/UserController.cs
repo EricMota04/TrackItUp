@@ -20,6 +20,10 @@ namespace TrackItUp.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all the users in the data base
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
@@ -38,7 +42,11 @@ namespace TrackItUp.Controllers
             return Ok(users);
         }
 
-
+        /// <summary>
+        /// Gets a user by its ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
@@ -67,7 +75,11 @@ namespace TrackItUp.Controllers
 
         }
 
-
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="addUserDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ServiceResult) , StatusCodes.Status201Created)]
@@ -104,6 +116,11 @@ namespace TrackItUp.Controllers
             }
         }
 
+        /// <summary>
+        /// To change the password of a user
+        /// </summary>
+        /// <param name="updateUserDto"></param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

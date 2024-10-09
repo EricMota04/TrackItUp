@@ -26,7 +26,10 @@ namespace TrackItUp.Controllers
             _logger = logger;
             _habitService = habitService;
         }
-
+        /// <summary>
+        /// Gets all the habit trackings in the data base
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,6 +48,11 @@ namespace TrackItUp.Controllers
             return Ok(trackings);
         }
 
+        /// <summary>
+        /// Gets a habit tracking by its ID
+        /// </summary>
+        /// <param name="id">The ID of the habit tracking</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
@@ -98,7 +106,11 @@ namespace TrackItUp.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Creates a new habit tracking.
+        /// </summary>
+        /// <param name="addHabitTrackingDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status201Created)]
@@ -142,7 +154,11 @@ namespace TrackItUp.Controllers
         }
 
 
-
+        /// <summary>
+        /// Updates a habit tracking.
+        /// </summary>
+        /// <param name="updateHabitTrackingDto"></param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

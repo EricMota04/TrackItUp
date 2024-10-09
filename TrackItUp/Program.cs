@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using TrackItUpBLL.Contracts;
 using TrackItUpBLL.Services;
 using TrackItUpDAL.Context;
@@ -20,7 +21,13 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
+
 builder.Services.AddDbContext<TrackItUpContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TrackItUp")));
 
