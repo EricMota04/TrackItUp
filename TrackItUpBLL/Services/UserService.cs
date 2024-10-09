@@ -138,28 +138,6 @@ namespace TrackItUpBLL.Services
                     Email = user.Email,
                     Password = user.Password,
                     CreatedAt = user.CreatedAt,
-                    Habits = user.Habits?.Select(hb => new Models.HabitModel
-                    {
-                        UserId = hb.UserId,
-                        CreatedAt = hb.CreatedAt,
-                        DeactivatedAt = hb.DeactivatedAt,
-                        DeletedAt = hb.DeletedAt,
-                        Description = hb.Description,
-                        Frequency = hb.Frequency,
-                        HabitId = hb.HabitId,
-                        HabitName = hb.HabitName,
-                        IsActive = hb.IsActive,
-                        IsDeleted = hb.IsDeleted,
-                        ReminderTime = hb.ReminderTime,
-                        StartDate = hb.StartDate,
-                        HabitTrackings = hb.HabitTrackings?.Select(ht => new Models.HabitTrackingModel
-                        {
-                            HabitId = ht.HabitId,
-                            DateTracked = ht.DateTracked,
-                            HabitTrackingId = ht.HabitTrackingId,
-                            IsCompleted = ht.IsCompleted
-                        }).ToList() ?? new List<Models.HabitTrackingModel>()
-                    }).ToList() ?? new List<Models.HabitModel>()
                 };
                 result.Data = userModel;
                 result.Message = "User found successfully";
