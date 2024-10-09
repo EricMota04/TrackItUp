@@ -44,7 +44,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          path: ./myapp  # Asegúrate de especificar la ruta correcta
       
+      - name: List published files
+        run: dir ./myapp  # Verifica que los archivos están presentes
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
