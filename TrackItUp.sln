@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackItUp", "TrackItUp\TrackItUp.csproj", "{9CF7A5C7-CF3D-4651-BF89-84161C9DBC50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackItUp", "TrackItUp\TrackItUp.csproj", "{9CF7A5C7-CF3D-4651-BF89-84161C9DBC50}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackItUp.DAL", "TrackItUp.DAL", "{744C9B09-78E0-4E4E-BDEB-8F0F0B77A9E6}"
 EndProject
@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackItUp.BLL", "TrackItUp.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackItUp.WEB", "TrackItUp.WEB", "{10ABEB7A-8EAC-43E1-9282-023B038F2710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackItUpDAL", "TrackItUpDAL\TrackItUpDAL.csproj", "{7A0DFB88-49EF-4B66-82D7-E48DE2C75B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackItUpDAL", "TrackItUpDAL\TrackItUpDAL.csproj", "{7A0DFB88-49EF-4B66-82D7-E48DE2C75B45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackItUpBLL", "TrackItUpBLL\TrackItUpBLL.csproj", "{1907BA55-F577-4408-AFB0-D295A5A9622E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackItUpBLL", "TrackItUpBLL\TrackItUpBLL.csproj", "{1907BA55-F577-4408-AFB0-D295A5A9622E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
