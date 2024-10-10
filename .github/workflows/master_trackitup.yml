@@ -47,6 +47,10 @@ jobs:
         with:
           name: .net-app
 
+      - name: Set connection string
+        run: |
+          echo "ConnectionStrings:TrackItUp=${{ secrets.AZURE_SQL_CONNECTION_STRING }}" >> $GITHUB_ENV
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
