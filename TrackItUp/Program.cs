@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDbContext<TrackItUpContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("TrackItUp")));
+    options.UseSqlServer(Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING")));
 
 var app = builder.Build();
 
