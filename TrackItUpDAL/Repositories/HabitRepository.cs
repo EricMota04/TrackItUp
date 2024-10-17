@@ -19,6 +19,31 @@ namespace TrackItUpDAL.Repositories
             _trackItUpContext = trackItUpContext;
         }
 
+        public async Task<Habit> ActivateHabit(int habitId)
+        {
+            try
+            {
+                var habitToActivate = await _trackItUpContext.Habits.FindAsync(habitId);
+
+                if (habitToActivate == null)
+                {
+                    return null;
+                }
+
+                habitToActivate.IsActive = true;
+                
+
+                await _trackItUpContext.SaveChangesAsync();
+
+                return habitToActivate;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
         public async Task<Habit> Add(Habit entity)
         {
             try
@@ -35,9 +60,9 @@ namespace TrackItUpDAL.Repositories
 
         }
 
-        public async Task<Habit> DeactivateHabit(Habit habit)
+        public async Task<Habit> DeactivateHabit(int habitId)
         {
-            var habitToDeactivate = await _trackItUpContext.Habits.FindAsync(habit.HabitId);
+            var habitToDeactivate = await _trackItUpContext.Habits.FindAsync(habitId);
 
             if (habitToDeactivate == null)
             {
@@ -87,7 +112,7 @@ namespace TrackItUpDAL.Repositories
         {
             try
             {
-                return await _trackItUpContext.Habits.ToListAsync();
+                return await _trackItUpContext.Habits.Where(x => x.IsDeleted != true).ToListAsync();
             }
             catch (Exception ex)
             {

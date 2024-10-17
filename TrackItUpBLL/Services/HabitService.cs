@@ -20,6 +20,25 @@ namespace TrackItUpBLL.Services
             _habitRepository = habitRepository;
             _logger = logger;
         }
+
+        public async Task<ServiceResult> ActivateHabit(int habitId)
+        {
+            ServiceResult result = new();
+            try
+            {
+                result.Data = await _habitRepository.ActivateHabit(habitId);
+                result.Message = "Habit Activated successfully";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                result.Message = $"There was an error Activating the habit {ex.Message}";
+                result.Success = false;
+                throw;
+            }
+        }
+
         public async Task<HabitAddResponse> AddHabitAsync(HabitAddDto habitAddDto)
         {
             HabitAddResponse result = new();
@@ -70,6 +89,25 @@ namespace TrackItUpBLL.Services
                 return result;
             }
         }
+
+        public async Task<ServiceResult> DeactivateHabit(int habitId)
+        {
+            ServiceResult result = new(); 
+            try
+            {
+                result.Data = await _habitRepository.DeactivateHabit(habitId);
+                result.Message = "Habit deactivated successfully";
+                return result;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                result.Message = $"There was an error deactivating the habit {ex.Message}";
+                result.Success = false;
+                throw;
+            }
+        }
+
 
         public async Task<HabitDeleteResponse> DeleteHabit(HabitDeleteDto habitDeleteDto)
         {

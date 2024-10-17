@@ -16,7 +16,7 @@ namespace TrackItUp.Controllers
         private readonly IHabitService _habitService;
         private readonly ILogger<HabitController> _logger;
         public HabitController(IHabitService habitService, ILogger<HabitController> logger)
-        { 
+        {
             _habitService = habitService;
             _logger = logger;
         }
@@ -25,7 +25,7 @@ namespace TrackItUp.Controllers
         /// Gets all the habits in the data base
         /// </summary>
         /// <returns></returns>
-        
+
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status404NotFound)]
@@ -33,15 +33,15 @@ namespace TrackItUp.Controllers
         public async Task<IActionResult> GetAll()
         {
             var habits = await _habitService.GetAll();
-            if (!habits.Success) 
-            { 
+            if (!habits.Success)
+            {
                 return BadRequest(habits);
             }
-            if (habits.Data == null) 
+            if (habits.Data == null)
             {
                 return NotFound(habits);
             }
-            
+
             return Ok(habits);
         }
 
@@ -54,16 +54,16 @@ namespace TrackItUp.Controllers
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetById(int id) 
-        { 
+        public async Task<IActionResult> GetById(int id)
+        {
             var habit = await _habitService.GetById(id);
 
-            if(habit.Data == null) 
-            { 
+            if (habit.Data == null)
+            {
                 return NotFound(habit);
             }
-            if (!habit.Success) 
-            { 
+            if (!habit.Success)
+            {
                 return BadRequest(habit);
             }
             return Ok(habit);
@@ -174,7 +174,7 @@ namespace TrackItUp.Controllers
 
                 if (deleteResult.Success)
                 {
-                    return NoContent(); 
+                    return NoContent();
                 }
 
                 return BadRequest(deleteResult);
@@ -221,7 +221,7 @@ namespace TrackItUp.Controllers
                     Frequency = updateHabitDto.Frequency,
                     HabitId = updateHabitDto.HabitId,
                     HabitName = updateHabitDto.HabitName,
-                    ReminderTime = reminderTime, 
+                    ReminderTime = reminderTime,
                     StartDate = updateHabitDto.StartDate,
                 };
 
@@ -241,6 +241,63 @@ namespace TrackItUp.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode(500, "Internal server error");
             }
+        }
+        /// <summary>
+        /// Deactivates a habit by its ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("Deactivate/{id}")]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Deactivate(int id)
+        {
+
+            try
+            {
+                var habitToDeactivate = await _habitService.DeactivateHabit(id);
+                if (habitToDeactivate.Success)
+                {
+                    return Ok(habitToDeactivate);
+                }
+                return BadRequest(habitToDeactivate);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Internal server error");
+            }
+
+        }
+
+        /// <summary>
+        /// Activates a habit by its ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("Activate/{id}")]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceResult), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Activate(int id)
+        {
+
+            try
+            {
+                var habitToActivate = await _habitService.ActivateHabit(id);
+                if (habitToActivate.Success)
+                {
+                    return Ok(habitToActivate);
+                }
+                return BadRequest(habitToActivate);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Internal server error");
+            }
+
         }
     }
 }
