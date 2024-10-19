@@ -84,6 +84,11 @@ namespace TrackItUpDAL.Repositories
             return await _trackItUpContext.HabitTrackings.Where(x => x.HabitId.Equals(habitId)).ToListAsync();
         }
 
+        public async Task<bool> IsHabitCompletedToday(int habitId)
+        {
+            return await _trackItUpContext.HabitTrackings.AnyAsync(x => x.HabitId.Equals(habitId) && x.DateTracked.Date == DateTime.Now.Date && x.IsCompleted == true);
+        }
+
         public async Task<HabitTracking> Update(HabitTracking entity)
         {
             try

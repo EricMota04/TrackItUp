@@ -29,7 +29,15 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDbContext<TrackItUpContext>(options =>
-    options.UseSqlServer(Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING")));
+    options.UseSqlServer(Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING"), sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null);
+    }
+    ));
 
 var app = builder.Build();
 

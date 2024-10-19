@@ -172,6 +172,11 @@ namespace TrackItUpBLL.Services
             }
         }
 
+        public async Task<bool> IsHabitCompletedToday(int habitId)
+        {
+            return await _habitTrackingRepository.IsHabitCompletedToday(habitId);
+        }
+
         public async Task<HabitTrackingUpdateResponse> UpdateHabitTracking(HabitTrackingUpdateDto habitTrackingUpdateDto)
         {
             HabitTrackingUpdateResponse result = new();

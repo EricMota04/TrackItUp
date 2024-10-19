@@ -14,11 +14,13 @@ namespace TrackItUpBLL.Services
     public class HabitService : IHabitService
     {
         private readonly IHabitRepository _habitRepository;
+        private readonly IHabitTrackingService _habitTrackingService;
         private readonly ILogger<HabitService> _logger;
-        public HabitService(IHabitRepository habitRepository, ILogger<HabitService> logger)
+        public HabitService(IHabitRepository habitRepository, ILogger<HabitService> logger, IHabitTrackingService habitTrackingService)
         {
             _habitRepository = habitRepository;
             _logger = logger;
+            _habitTrackingService = habitTrackingService;
         }
 
         public async Task<ServiceResult> ActivateHabit(int habitId)
@@ -257,7 +259,23 @@ namespace TrackItUpBLL.Services
                     result.Message = "There's no habits for this user";
                     return result;
                 }
-                result.Data = habits;
+                
+                result.Data = habits.Select(h => new HabitDto
+                {
+                    HabitId = h.HabitId,
+                    HabitName = h.HabitName,
+                    Description = h.Description,
+                    Frequency = h.Frequency,
+                    ReminderTime = h.ReminderTime,
+                    StartDate = h.StartDate,
+                    UserId = h.UserId,
+                    CreatedAt = h.CreatedAt,
+                    DeactivatedAt = h.DeactivatedAt,
+                    DeletedAt = h.DeletedAt,
+                    IsActive = h.IsActive,
+                    IsDeleted = h.IsDeleted,
+                    IsCompletedToday = _habitTrackingService.IsHabitCompletedToday(h.HabitId).Result
+                }); ;
                 result.Message = $"Habits [{userId}]";
                 return result;
             }

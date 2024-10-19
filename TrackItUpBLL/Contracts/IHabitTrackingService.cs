@@ -11,6 +11,7 @@ namespace TrackItUpBLL.Contracts
         Task<HabitTrackingAddResponse> AddHabitTracking(HabitTrackingAddDto habitTrackingAddDto);
         Task<HabitTrackingUpdateResponse> UpdateHabitTracking(HabitTrackingUpdateDto habitTrackingUpdateDto);
         Task<ServiceResult> GetHabitTrackingsByHabitID(int id);
+        Task<bool> IsHabitCompletedToday(int habitId);
 
     }
 }
