@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TrackItUp.Dtos.LoginDtos;
 using TrackItUpBLL.Contracts;
 
 namespace TrackItUp.Controllers
@@ -23,15 +24,15 @@ namespace TrackItUp.Controllers
         /// <param name="password"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            if (email == null || password == null)
+            if (loginRequest.Email == null || loginRequest.Password == null)
             {
                 return BadRequest("Email and password are required");
             }
             try
             {
-                var user = await _userService.VerifyCredentials(email, password);
+                var user = await _userService.VerifyCredentials(loginRequest.Email, loginRequest.Password);
                 if (user.Success == false)
                 {
                     return Unauthorized(user.Message);
