@@ -137,7 +137,7 @@ namespace TrackItUpDAL.Repositories
 
         public async Task<IEnumerable<Habit>> GetHabitsByUserID(int userID)
         {
-            var habits = await _trackItUpContext.Habits.Where(u => u.UserId.Equals(userID)).ToListAsync();
+            var habits = await _trackItUpContext.Habits.Where(u => u.UserId.Equals(userID) && u.IsDeleted != true).ToListAsync();
 
             return habits;
 
