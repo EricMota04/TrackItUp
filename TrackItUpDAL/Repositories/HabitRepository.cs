@@ -151,7 +151,7 @@ namespace TrackItUpDAL.Repositories
 
                 if (entityToUpdate == null)
                 {
-                    _logger.LogWarning("Habit with ID {Id} not found.", entity.HabitId);
+                    _logger.LogWarning($"Habit with ID {entity.HabitId} not found.", entity.HabitId);
                     return null; 
                 }
 
