@@ -65,6 +65,19 @@ namespace TrackItUpDAL.Repositories
             }
         }
 
+        public async Task<User> GetByEmail(string email)
+        {
+            try
+            {
+                return await _trackItUpContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
         public async Task<User> GetById(int id)
         {
             try

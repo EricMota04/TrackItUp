@@ -170,16 +170,6 @@ namespace TrackItUpBLL.Services
                     IsActive = h.IsActive,
                     IsDeleted = h.IsDeleted,
                     StartDate = h.StartDate,
-                    HabitTrackings = h.HabitTrackings.Select(ht => new Models.HabitTrackingModel
-                    {
-                        HabitTrackingId = ht.HabitTrackingId,
-                        HabitId = ht.HabitId,
-                        DateTracked = ht.DateTracked,
-                        IsCompleted = ht.IsCompleted,
-
-
-                    }).ToList()
-
 
                 }).ToList();
                 result.Message = "Success";

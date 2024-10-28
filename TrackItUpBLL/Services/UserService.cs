@@ -78,30 +78,7 @@ namespace TrackItUpBLL.Services
                     Name = u.Name,
                     Email = u.Email,
                     Password = u.Password,
-                    CreatedAt = u.CreatedAt,
-                    Habits = u.Habits?.Select(hb => new Models.HabitModel
-                    {
-                        UserId = hb.UserId,
-                        CreatedAt = hb.CreatedAt,
-                        DeactivatedAt = hb.DeactivatedAt,
-                        DeletedAt = hb.DeletedAt,
-                        Description = hb.Description,
-                        Frequency = hb.Frequency,
-                        HabitId = hb.HabitId,
-                        HabitName = hb.HabitName,
-                        IsActive = hb.IsActive,
-                        IsDeleted = hb.IsDeleted,
-                        ReminderTime = hb.ReminderTime,
-                        StartDate = hb.StartDate,
-                        HabitTrackings = hb.HabitTrackings?.Select(ht => new Models.HabitTrackingModel
-                        {
-                            HabitId = ht.HabitId,
-                            DateTracked = ht.DateTracked,
-                            HabitTrackingId = ht.HabitTrackingId,
-                            IsCompleted = ht.IsCompleted
-                        }).ToList() ?? new List<Models.HabitTrackingModel>()
-                    }).ToList() ?? new List<Models.HabitModel>()
-                }).ToList();
+                });
 
                 result.Message = "Success";
             }
@@ -152,6 +129,30 @@ namespace TrackItUpBLL.Services
             }
         }
 
+        public async Task<ServiceResult> GetUserByEmail(string email)
+        {
+            ServiceResult result = new();
+            try
+            {
+                result.Data = await _userRepository.GetByEmail(email);
+                if(result.Data == null)
+                {
+                    result.Message = "Email not registered";
+                    result.Success = false;
+                    return result;
+                }
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the email.");
+                result.Success = false;
+                result.Message = "An error occurred while processing your request.";
+                return result;
+            }
+        }
+
         public async Task<UserUpdateResponse> UpdateUser(UserUpdateDto userUpdateDto)
         {
             UserUpdateResponse result = new();
@@ -178,6 +179,38 @@ namespace TrackItUpBLL.Services
                 _logger.LogError(ex, "An error occurred while updating the user.");
                 result.Success = false;
                 result.Message = "An error occurred while processing your request.";
+                return result;
+            }
+        }
+
+        public async Task<ServiceResult> VerifyCredentials(string email, string password)
+        {
+            ServiceResult result = new();
+            try
+            {
+                ServiceResult userResult = await GetUserByEmail(email);
+                if (!userResult.Success)
+                {
+                    result.Success = false;
+                    result.Message = userResult.Message;
+                    return result;
+                }
+                else if (userResult.Data.Password != password)
+                {
+
+                    result.Success = false;
+                    result.Message = "Invalid password";
+                    return result;
+                }
+                result.Data = userResult.Data;
+                result.Message = "Credentials verified successfully";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while verifying the credentials.");
+                result.Success = false;
+                result.Message = "An error occurred while verifying the credentials.";
                 return result;
             }
         }

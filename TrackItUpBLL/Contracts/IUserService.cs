@@ -1,4 +1,5 @@
-﻿using TrackItUpBLL.Dtos.UserDtos;
+﻿using TrackItUpBLL.Core;
+using TrackItUpBLL.Dtos.UserDtos;
 using TrackItUpBLL.Responses.UserResponses;
 
 namespace TrackItUpBLL.Contracts
@@ -7,5 +8,7 @@ namespace TrackItUpBLL.Contracts
     {
         Task<UserAddResponse> AddUser(UserAddDto userAddDto);
         Task<UserUpdateResponse> UpdateUser(UserUpdateDto userUpdateDto);
+        Task<ServiceResult> GetUserByEmail(string email);
+        Task<ServiceResult> VerifyCredentials(string email, string password);
     }
 }

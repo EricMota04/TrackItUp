@@ -23,4 +23,8 @@
     <ProjectReference Include="..\TrackItUpDAL\TrackItUpDAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\LoginDtos\" />
+  </ItemGroup>
+
 </Project>
