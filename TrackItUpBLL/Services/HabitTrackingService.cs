@@ -43,7 +43,7 @@ namespace TrackItUpBLL.Services
                     {
                         HabitId = habitTrackingAddDto.HabitId,
                         IsCompleted = true,
-                        DateTracked = habitTrackingAddDto.DateTracked ?? DateTime.Now,
+                        DateTracked = habitTrackingAddDto.DateTracked,
                     };
 
                     TrackItUpDAL.Entities.HabitTracking habitTracking = new()

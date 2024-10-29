@@ -9,6 +9,6 @@ namespace TrackItUpBLL.Dtos.HabitTrackingDtos
 
         [Required(ErrorMessage = "IsCompleted is required")]
         public bool IsCompleted { get; set; } 
-        public DateTime? DateTracked { get; set; }
+        public DateTime DateTracked { get; set; }
     }
 }
