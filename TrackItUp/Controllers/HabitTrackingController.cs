@@ -130,7 +130,6 @@ namespace TrackItUp.Controllers
             var habitTracking = new HabitTrackingAddDto
             {
                 HabitId = addHabitTrackingDto.HabitId, 
-                DateTracked = addHabitTrackingDto.DateTracked,
                 IsCompleted = addHabitTrackingDto.IsCompleted,
             };
 

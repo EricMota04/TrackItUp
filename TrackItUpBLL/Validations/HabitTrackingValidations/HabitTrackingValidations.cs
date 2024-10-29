@@ -27,12 +27,12 @@ namespace TrackItUpBLL.Validations.HabitTrackingValidations
                 return result;
             }
 
-            if (addDto.DateTracked == default)
-            {
-                result.Success = false;
-                result.Message = "The date for tracking is required.";
-                return result;
-            }
+            //if (addDto.DateTracked == default)
+            //{
+            //    result.Success = false;
+            //    result.Message = "The date for tracking is required.";
+            //    return result;
+            //}
 
             result.Success = true;
             return result;
