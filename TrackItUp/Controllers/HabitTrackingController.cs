@@ -121,15 +121,15 @@ namespace TrackItUp.Controllers
                 return BadRequest("HabitTracking data is required.");
             }
 
-            var habitResult = await _habitService.GetById(addHabitTrackingDto.HabitId);
-            if (!habitResult.Success || habitResult.Data == null)
-            {
-                return NotFound("Habit not found.");
-            }
+            //var habitResult = await _habitService.GetById(addHabitTrackingDto.HabitId);
+            //if (!habitResult.Success || habitResult.Data == null)
+            //{
+            //    return NotFound("Habit not found.");
+            //}
 
             var habitTracking = new HabitTrackingAddDto
             {
-                HabitId = habitResult.Data.HabitId, 
+                HabitId = addHabitTrackingDto.HabitId, 
                 DateTracked = addHabitTrackingDto.DateTracked,
                 IsCompleted = addHabitTrackingDto.IsCompleted,
             };
