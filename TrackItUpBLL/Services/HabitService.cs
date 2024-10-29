@@ -156,7 +156,7 @@ namespace TrackItUpBLL.Services
             {
                 var habits = await _habitRepository.GetAll();
 
-                result.Data = habits.Select(h => new Models.HabitModel()
+                result.Data = habits.Select(h => new HabitDto()
                 {
                     UserId = h.UserId,
                     HabitId = h.HabitId,
@@ -170,6 +170,7 @@ namespace TrackItUpBLL.Services
                     IsActive = h.IsActive,
                     IsDeleted = h.IsDeleted,
                     StartDate = h.StartDate,
+                    IsCompletedToday = _habitTrackingService.IsHabitCompletedToday(h.HabitId).Result
 
                 }).ToList();
                 result.Message = "Success";
@@ -192,7 +193,7 @@ namespace TrackItUpBLL.Services
                 var habit = await _habitRepository.GetById(id);
                 if (habit != null)
                 {
-                    Models.HabitModel habitModel = new()
+                    HabitDto habitModel = new()
                     {
                         Frequency = habit.Frequency,
                         HabitName = habit.HabitName,
@@ -206,15 +207,8 @@ namespace TrackItUpBLL.Services
                         IsActive = habit.IsActive,
                         IsDeleted = habit.IsDeleted,
                         StartDate = habit.StartDate,
-                        HabitTrackings = habit.HabitTrackings.Select(x =>
-                                                new HabitTrackingModel
-                                                {
-                                                    HabitId = x.HabitId,
-                                                    HabitTrackingId = x.HabitTrackingId,
-                                                    IsCompleted = x.IsCompleted,
-                                                    DateTracked = x.DateTracked,
+                        IsCompletedToday = _habitTrackingService.IsHabitCompletedToday(habit.HabitId).Result
 
-                                                }).ToList()
                     };
                     result.Data = habitModel;
                     result.Message = "Success";
