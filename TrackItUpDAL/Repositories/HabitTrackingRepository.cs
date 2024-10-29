@@ -55,7 +55,7 @@ namespace TrackItUpDAL.Repositories
         {
             try
             {
-                var habitTrackings = await _trackItUpContext.HabitTrackings.ToListAsync();
+                var habitTrackings = await _trackItUpContext.HabitTrackings.OrderByDescending(t=> t.DateTracked).ToListAsync();
                 return habitTrackings ?? Enumerable.Empty<HabitTracking>();
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace TrackItUpDAL.Repositories
 
         public async Task<IEnumerable<HabitTracking>> GetHabitTrackingsByHabitId(int habitId)
         {
-            return await _trackItUpContext.HabitTrackings.Where(x => x.HabitId.Equals(habitId)).ToListAsync();
+            return await _trackItUpContext.HabitTrackings.Where(x => x.HabitId.Equals(habitId)).OrderByDescending(t => t.DateTracked).ToListAsync();
         }
 
         public async Task<bool> IsHabitCompletedToday(int habitId)
