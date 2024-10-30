@@ -295,6 +295,8 @@ namespace TrackItUpBLL.Services
                     habitToUpdate.Frequency = habitUpdateDto.Frequency;
                     habitToUpdate.HabitName = habitUpdateDto.HabitName;
                     habitToUpdate.ReminderTime = habitUpdateDto.ReminderTime;
+                    habitToUpdate.HabitName = habitUpdateDto.HabitName;
+                    habitToUpdate.Description = habitUpdateDto.Description;
 
                     await _habitRepository.Update(habitToUpdate);
 

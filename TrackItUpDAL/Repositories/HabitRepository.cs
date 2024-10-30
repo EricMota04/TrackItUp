@@ -163,7 +163,6 @@ namespace TrackItUpDAL.Repositories
                 entityToUpdate.ReminderTime = entity.ReminderTime;
                 
 
-                
                 await _trackItUpContext.SaveChangesAsync();
 
                 
